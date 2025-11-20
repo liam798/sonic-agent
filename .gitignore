@@ -1,6 +1,7 @@
 /.idea/
 /test-output/
 /target/
+/out/
 /.gradle/
 /logs/
 *.iml
