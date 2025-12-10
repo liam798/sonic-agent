@@ -29,7 +29,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
       - name: replace version
         run: sed -i "s/SONIC_VERSION/${{ steps.previoustag.outputs.tag }}/g" src/main/docker/docker-compose*.yml
       - name: Upload yml To Github Release
@@ -84,7 +83,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
       - name: replace version
         run: ver=${{ steps.previoustag.outputs.tag }} && new_ver=${ver:1} && sed -i "s/SONIC_VERSION/${new_ver}/g" pom.xml && sed -i "s/SONIC_VERSION/${{ steps.previoustag.outputs.tag }}/g" src/main/docker/docker-compose*.yml
       - name: mkdir
