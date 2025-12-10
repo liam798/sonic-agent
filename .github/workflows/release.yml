@@ -95,6 +95,18 @@ jobs:
         run: cp -r target/sonic-agent-${{ matrix.platform }}.jar sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/
       - name: copy
         run: cp -r config/ mini/ sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/
+      - name: copy-scripts-windows
+        if: startsWith(matrix.platform, 'windows-')
+        run: |
+          cp scripts/start-windows.bat sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/
+          cp scripts/setup-config.ps1 sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/
+          sed -i "s/sonic-agent-.*\.jar/sonic-agent-${{ matrix.platform }}.jar/g" sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/start-windows.bat
+      - name: copy-scripts-macos
+        if: startsWith(matrix.platform, 'macosx-')
+        run: |
+          cp scripts/start-macosx.command sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/
+          sed -i "s/sonic-agent-.*\.jar/sonic-agent-${{ matrix.platform }}.jar/g" sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/start-macosx.command
+          chmod +x sonic-agent-${{ steps.previoustag.outputs.tag }}-${{matrix.depend}}/start-macosx.command
       - name: adb-download
         uses: robinraju/release-downloader@v1.4
         with:
